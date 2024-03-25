@@ -5,7 +5,6 @@ using FlightAnalyzer.Services;
 
 namespace FlightAnalyzer.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class FlightsController : ControllerBase

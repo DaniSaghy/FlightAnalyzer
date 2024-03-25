@@ -9,8 +9,10 @@ namespace FlightAnalyzer.Services
             var inconsistencies = new List<FlightInconsistency>();
 
             // Step 1: Map departure airports to flights
-            var flightsByAircraft = flights.GroupBy(f => f.AircraftRegistrationNumber)
-                                   .ToDictionary(g => g.Key, g => g.OrderBy(f => f.DepartureDateTime).ToList());
+            var flightsByAircraft = flights
+                .GroupBy(f => string.IsNullOrEmpty(f.AircraftRegistrationNumber) ? "Unknown" : f.AircraftRegistrationNumber)
+                .ToDictionary(g => g.Key, g => g.OrderBy(f => f.DepartureDateTime).ToList());
+
 
             var flightChains = flightsByAircraft.Where(x => x.Value.Count > 1);
 
@@ -24,23 +26,26 @@ namespace FlightAnalyzer.Services
                     // Check for mismatch in airport sequence
                     if (currentFlight.ArrivalAirport != nextFlight.DepartureAirport)
                     {
-                        inconsistencies.Add(new FlightInconsistency(
-                            aircraftRegistrationNumber: currentFlight.AircraftRegistrationNumber,
-                            currentFlight: currentFlight,
-                            nextFlight: nextFlight,
-                            issueDescription: $"Mismatch in airport sequence. Expected next departure from {currentFlight.ArrivalAirport}, but got {nextFlight.DepartureAirport}."
-                        ));
+                        inconsistencies.Add(new FlightInconsistency
+                        {
+                            AircraftRegistrationNumber = currentFlight.AircraftRegistrationNumber,
+                            CurrentFlight = currentFlight,
+                            NextFlight = nextFlight,
+                            IssueDescription = $"Mismatch in airport sequence. Expected next departure from {currentFlight.ArrivalAirport}, but got {nextFlight.DepartureAirport}."
+
+                        });
                     }
 
                     // Check for overlapping flight times
                     if (currentFlight.ArrivalDateTime > nextFlight.DepartureDateTime)
                     {
-                        inconsistencies.Add(new FlightInconsistency(
-                            aircraftRegistrationNumber: currentFlight.AircraftRegistrationNumber,
-                            currentFlight: currentFlight,
-                            nextFlight: nextFlight,
-                            issueDescription: $"Timing overlap detected. Current flight arrives at {currentFlight.ArrivalDateTime}, but next flight departs at {nextFlight.DepartureDateTime}."
-                        ));
+                        inconsistencies.Add(new FlightInconsistency
+                        {
+                            AircraftRegistrationNumber = currentFlight.AircraftRegistrationNumber,
+                            CurrentFlight = currentFlight,
+                            NextFlight = nextFlight,
+                            IssueDescription = $"Timing overlap detected. Current flight arrives at {currentFlight.ArrivalDateTime}, but next flight departs at {nextFlight.DepartureDateTime}."
+                        });
                     }
                 }
             }
