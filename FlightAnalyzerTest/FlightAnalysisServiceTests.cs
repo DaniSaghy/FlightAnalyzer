@@ -30,7 +30,7 @@ namespace FlightAnalyzerTest
             var flights = new List<Flight>
             {
                 new Flight { AircraftRegistrationNumber = "ABC-123", FlightNumber = "M645", DepartureAirport = "HEL", ArrivalAirport = "DXB", DepartureDateTime = DateTime.Parse("2024-01-02 21:46:27"), ArrivalDateTime = DateTime.Parse("2024-01-03 02:31:27") },
-                new Flight { AircraftRegistrationNumber = "ABC-123", FlightNumber = "K319", DepartureAirport = "SFO", ArrivalAirport = "DXB", DepartureDateTime = DateTime.Parse("2024-01-03 02:00:00"), ArrivalDateTime = DateTime.Parse("2024-01-03 08:00:00") } // Inconsistent with M645's arrival
+                new Flight { AircraftRegistrationNumber = "ABC-123", FlightNumber = "K319", DepartureAirport = "SFO", ArrivalAirport = "DXB", DepartureDateTime = DateTime.Parse("2024-01-03 02:00:00"), ArrivalDateTime = DateTime.Parse("2024-01-03 08:00:00") }
             };
             var service = new FlightAnalysisService();
 
@@ -39,7 +39,6 @@ namespace FlightAnalyzerTest
 
             // Assert
             Assert.Equal(2, result.Count);
-            // Further assertions can be made to verify the contents of the inconsistencies
         }
     }
 }

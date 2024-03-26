@@ -22,13 +22,13 @@ builder.Services.AddScoped<IFlightService>(serviceProvider =>
     var fileSystem = serviceProvider.GetRequiredService<IFileSystem>();
     var settings = serviceProvider.GetRequiredService<IOptions<FlightServiceSettings>>().Value;
 
-    return new FlightService(logger, fileSystem, settings.CsvFilePath);
+    return new FlightService(logger, fileSystem, settings.CsvFilePath!);
 });
 
 // Register FlightAnalysisService
 builder.Services.AddScoped<IFlightAnalysisService, FlightAnalysisService>();
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+// Configure Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {

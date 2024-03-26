@@ -2,6 +2,6 @@
 {
     public class FlightServiceSettings
     {
-        public string CsvFilePath { get; set; }
+        public string? CsvFilePath { get; set; }
     }
 }

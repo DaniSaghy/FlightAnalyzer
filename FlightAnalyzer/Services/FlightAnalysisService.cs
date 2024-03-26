@@ -8,7 +8,7 @@ namespace FlightAnalyzer.Services
         {
             var inconsistencies = new List<FlightInconsistency>();
 
-            // Step 1: Map departure airports to flights
+            // Map departure airports to flights
             var flightsByAircraft = flights
                 .GroupBy(f => string.IsNullOrEmpty(f.AircraftRegistrationNumber) ? "Unknown" : f.AircraftRegistrationNumber)
                 .ToDictionary(g => g.Key, g => g.OrderBy(f => f.DepartureDateTime).ToList());
